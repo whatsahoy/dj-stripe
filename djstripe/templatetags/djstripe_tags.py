@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+.. module:: djstripe.templatetags.djstripe_tags.
+
+   :synopsis: dj-stripe - Custom tags to be used in templates.
+
+.. moduleauthor:: @kavdev, @pydanny, @chrissmejia, @audreyr
+"""
 from __future__ import division
 
 from django.template import Library
@@ -10,10 +17,10 @@ register = Library()
 @register.filter
 def djdiv(value, arg):
     """
-    Divide the value by the arg, using Python 3-style division that returns
-    floats. If bad values are passed in, return the empty string.
-    """
+    Divide the value by the arg, using Python 3-style division that returns floats.
 
+    If bad values are passed in, return the empty string.
+    """
     try:
         return value / arg
     except (ValueError, TypeError):
@@ -21,6 +28,8 @@ def djdiv(value, arg):
             return value / arg
         except Exception:
             return ''
+
+
 division.is_safe = False
 
 
@@ -34,7 +43,9 @@ def djstripe_plan_level(name):
     Note: Custom settings setup is needed, please see the documentation for details.
     """
     level = -1
-    for config_level in djstripe_settings.PLAN_HIERARCHY.values():
+    hierarchy_dict = djstripe_settings.PLAN_HIERARCHY
+
+    for config_level in hierarchy_dict.values():
         if name in config_level["plans"]:
             level = config_level["level"]
 
